@@ -1,10 +1,11 @@
 import math
-
 import telebot
+from dotenv import load_dotenv
+import os
 from DataBase import name_search, ingredients_search, category_search, repeat_name_serch
 from telebot import types
-
-bot = telebot.TeleBot('5601730809:AAHJ6OF890k1UAqZ3wTIZGo40M7IslAgmDQ')
+load_dotenv()
+bot = telebot.TeleBot(os.getenv('TOKEN'))
 
 @bot.message_handler(commands=['start']) #стартовая команда
 def start(message):
