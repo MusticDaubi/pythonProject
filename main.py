@@ -55,9 +55,15 @@ def process_name_search(message):
     try:
         print('msg', message.text)
         information = name_search(message.text)
-        bot.send_message(message.chat.id, information)
-        ms = bot.send_message(message.chat.id, 'Введите номер')
-        bot.register_next_step_handler(ms, test, information)
+        i = len(information)
+        a = 1
+        bot.send_message(message.chat.id, information[0])
+        if i <= 1:
+            ms = bot.send_message(message.chat.id, 'Введите номер рецепта из списка')
+            bot.register_next_step_handler(ms, test, information)
+        else:
+            ms = bot.send_message(message.chat.id,  'Показать еще? (Да или Нет)')
+            bot.register_next_step_handler(ms, test2, information, a)
     except Exception as e:
         print('Error name serch ', e)
         bot.reply_to(message, "Ошибка")
