@@ -35,7 +35,8 @@ def get_text_messages(message):
         markup.add(btn1, btn2, btn3)
     elif message.text == 'поиск по категориям':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        msg = bot.send_message(message.chat.id, 'Введите название категорий, по которым ищите рецепты')
+        msg = bot.send_message(message.chat.id, 'Введите название категорий через запятую и пробел, по которым ищите рецепты. '
+                                                'Пример ввода: Мясо, На ужин')
         bot.register_next_step_handler(msg, process_category_search)
         btn1 = types.KeyboardButton('поиск по названию')
         btn2 = types.KeyboardButton('поиск по категориям')
@@ -44,7 +45,8 @@ def get_text_messages(message):
         markup.add(btn1, btn2, btn3)
     elif message.text == 'поиск по ингредиентам':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        msg = bot.send_message(message.chat.id, 'Введите название ингредиентов, по которым ищите рецепты')
+        msg = bot.send_message(message.chat.id, 'Введите название ингредиентов через запятую и пробел, по которым ищите рецепты. '
+                                                'Пример ввода: Помидор, картофель')
         bot.register_next_step_handler(msg, process_ingredients_search)
         btn1 = types.KeyboardButton('поиск по названию')
         btn2 = types.KeyboardButton('поиск по категориям')
@@ -76,8 +78,12 @@ def process_category_search(message):
         i = len(information)
         a = 1
         bot.send_message(message.chat.id, information[0])
-        ms = bot.send_message(message.chat.id, 'Показать еще? (Да или Нет)')
-        bot.register_next_step_handler(ms, test2, information, a)
+        if i <= 1:
+            ms = bot.send_message(message.chat.id, 'Введите номер рецепта из списка')
+            bot.register_next_step_handler(ms, test3, information, a)
+        else:
+            ms = bot.send_message(message.chat.id, 'Показать еще? (Да или Нет)')
+            bot.register_next_step_handler(ms, test2, information, a)
     except Exception as e:
         print('Error name serch ', e)
         bot.reply_to(message, "Ошибка")
@@ -90,8 +96,12 @@ def process_ingredients_search(message):
         i = len(information)
         a = 1
         bot.send_message(message.chat.id, information[0])
-        ms = bot.send_message(message.chat.id, 'Показать еще? (Да или Нет)')
-        bot.register_next_step_handler(ms, test2, information, a)
+        if i <= 1:
+            ms = bot.send_message(message.chat.id, 'Введите номер рецепта из списка')
+            bot.register_next_step_handler(ms, test3, information, a)
+        else:
+            ms = bot.send_message(message.chat.id, 'Показать еще? (Да или Нет)')
+            bot.register_next_step_handler(ms, test2, information, a)
     except Exception as e:
         print('Error name serch ', e)
         bot.reply_to(message, "Ошибка")
@@ -105,7 +115,6 @@ def test(message, information):
 def test3(message, information, a):
     mess = int(message.text)
     mess = mess % 15
-    print(type(information[a]))
     information = information[a-1].split('.')
     data = repeat_name_serch(information[mess])
     bot.send_message(message.chat.id, data)
