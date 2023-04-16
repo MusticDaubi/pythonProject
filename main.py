@@ -114,13 +114,14 @@ def test(message, information):
 
 def test3(message, information, a):
     mess = int(message.text)
+    b = math.ceil(mess/15)
     if mess <=15:
         mess = mess
     elif mess > 15 and mess % 15 != 0:
         mess = mess % 15
     elif mess > 15 and mess % 15 == 0:
-        mess = 15
-    information = information[a-1].split('.')
+        mess= 15
+    information = information[b-1].split('.')
     data = repeat_name_serch(information[mess])
     bot.send_message(message.chat.id, data)
 
