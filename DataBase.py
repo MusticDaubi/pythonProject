@@ -91,7 +91,7 @@ def name_search(stri):
         k = 0
         knew = 15
         array1 = []
-        result += "По вашему запросу найдено " + a + " совпадений." + " \n\n"
+        result += "По вашему запросу найдено " + a + " совпадений" + " \n\n"
         if count <= 15:
             for tit in db_data:
                 result +=f"{k + 1}. " + name_parser(tit)
@@ -175,7 +175,7 @@ def category_search(stri):
         a = ''
         a = str(count)
         b = math.ceil(count/15)
-        res += "По вашему запросу найдено " + a + " совпадений." + " \n\n"
+        res += "По вашему запросу найдено " + a + " совпадений" + " \n\n"
         if count <= 15:
             for tit in db_data:
                 res += f"{k + 1}. " +name_parser(tit)
@@ -233,7 +233,7 @@ def ingredients_search(stri):
         a = ''
         a = str(count)
         b = math.ceil(count / 15)
-        res += "По вашему запросу найдено " + a + " совпадений." + " \n\n"
+        res += "По вашему запросу найдено " + a + " совпадений" + " \n\n"
         if count <= 15:
             for tit in db_data:
                 res += f"{k + 1}. " + name_parser(tit)

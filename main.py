@@ -46,7 +46,7 @@ def get_text_messages(message):
     elif message.text == 'поиск по ингредиентам':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         msg = bot.send_message(message.chat.id, 'Введите название ингредиентов через запятую и пробел, по которым ищите рецепты. '
-                                                'Пример ввода: Помидор, картофель')
+                                                'Пример ввода: Помидор, Картофель')
         bot.register_next_step_handler(msg, process_ingredients_search)
         btn1 = types.KeyboardButton('поиск по названию')
         btn2 = types.KeyboardButton('поиск по категориям')
@@ -114,7 +114,12 @@ def test(message, information):
 
 def test3(message, information, a):
     mess = int(message.text)
-    mess = mess % 15
+    if mess <=15:
+        mess = mess
+    elif mess > 15 and mess % 15 != 0:
+        mess = mess % 15
+    elif mess > 15 and mess % 15 == 0:
+        mess = 15
     information = information[a-1].split('.')
     data = repeat_name_serch(information[mess])
     bot.send_message(message.chat.id, data)
@@ -122,11 +127,16 @@ def test3(message, information, a):
 def test2(message, information, a):
     text = message.text
     b = len(information)
-    if text == 'Да' or text == 'да' and a<=b:
+    if text == 'Да' or text == 'да' and a<b:
         bot.send_message(message.chat.id, information[a])
-        ms = bot.send_message(message.chat.id, 'Показать еще? (Да или Нет)')
-        bot.register_next_step_handler(ms, test2, information, a+1)
-    elif text == 'Нет' or text == 'нет':
+        a = a+1
+        if a <b:
+            ms = bot.send_message(message.chat.id, 'Показать еще? (Да или Нет)')
+            bot.register_next_step_handler(ms, test2, information, a)
+        else:
+            ms = bot.send_message(message.chat.id, 'Введите номер рецепта')
+            bot.register_next_step_handler(ms, test3, information, a-1)
+    elif text == 'Нет' or text == 'нет' or a==b:
         ms = bot.send_message(message.chat.id, 'Введите номер рецепта')
         bot.register_next_step_handler(ms, test3, information, a)
     else:
