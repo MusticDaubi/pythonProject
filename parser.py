@@ -52,12 +52,9 @@ try:
         id += 1
 
         data = {
-            # 'category': category_id,
             'id': id,
             'name': name,
             'time': time,
-            # 'ingrName': ingr_id,
-            # 'ingrs': ingr_info,
             'description': description,
             'count': count,
             'url': card_url
@@ -76,7 +73,6 @@ try:
                 _SQL = 'INSERT INTO category1(category) values (\'' + category + '\');'
                 _SQL2 = 'SELECT id FROM category1 WHERE category = %s'
                 _SQL3 = 'INSERT INTO categorylist(id_category, id_recipe) values (%s,%s);'
-                # _SQL4 = 'INSERT INTO categorylist(id_recipe) values (%s)'
                 try:
                     cursor.execute(_SQL2, (category,))
                     check = cursor.fetchone()
@@ -90,7 +86,6 @@ try:
                         cursor.execute('SELECT id FROM category1 WHERE category = (\'' + category + '\')')
                         k = cursor.fetchone()
                         cursor.execute(_SQL3, (k, id,))
-                        # cursor.execute(_SQL4, (id,))
                 except psycopg2.IntegrityError:
                     cursor.execute('SELECT id FROM category1 WHERE category = (\'' + category + '\')')
                     k = cursor.fetchone()
